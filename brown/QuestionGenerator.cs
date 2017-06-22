@@ -22,7 +22,7 @@ namespace brown
             }
 
             // 1 is omitted to increase the difficulty
-            List<int> fixedDigits = new List<int> { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            List<int> fixedDigits = new List<int> { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
             List<Equation> questions = new List<Equation>();
 
             while(questions.Count < numberOfQuestions)
