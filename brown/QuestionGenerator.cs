@@ -14,27 +14,42 @@ namespace brown
         /// <param name="digits">Digits.</param>
         /// <param name="op">Ops.</param>
         /// <param name="numberOfQuestions">Number of questions.</param>
-        public IEnumerable<Equation> Generate(IEnumerable<int> digits, string op, int numberOfQuestions)
+        public IEnumerable<MissingNumberEquation> Generate(IEnumerable<int> digits, string op, int numberOfQuestions)
         {
             if (numberOfQuestions <= 0) 
             {
                 throw new ArgumentException("numberOfQuestions");
             }
 
-            // 1 is omitted to increase the difficulty
-            List<int> fixedDigits = new List<int> { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-            List<Equation> questions = new List<Equation>();
+            List<MissingNumberEquation> questions = new List<MissingNumberEquation>();
+
+            Random rand = new Random();
+            int style = 0;
 
             while(questions.Count < numberOfQuestions)
             {
-                int a = digits.Rand();
-                int b = fixedDigits.Rand();
+                int aid = rand.Next(digits.Count());
+                int bid = rand.Next(digits.Count());
 
-                Equation eq = null;
+                int a = digits.ElementAt(aid);
+                int b = digits.ElementAt(bid);
+
+                // Reset style
+                if (style == 3) 
+                {
+                    style = 0;
+                }
+
+                if (a + b < 10) 
+                {
+                    continue;
+                }
+
+                MissingNumberEquation eq = null;
 
                 try
                 {
-                    eq = new Equation(a, b, op);   
+                    eq = new MissingNumberEquation(a, b, op, style);   
                 }
                 catch(ArgumentException)
                 {
@@ -44,6 +59,8 @@ namespace brown
                 if (!questions.Any(q => q.Equal(eq)))
                 {
                     questions.Add(eq);
+
+                    style++;
                 }
             }
 

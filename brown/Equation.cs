@@ -3,35 +3,30 @@ namespace brown
 {
     public class Equation
     {
-        private readonly int _a;
-        private readonly int _b;
-        private readonly string _operator;
+		private readonly string _operator;
+
+        private int _a;
+        private int _b;
 
         public Equation(int a, int b, string op)
         {
-            if (a == 0 && b == 0) 
-            {
-                throw new ArgumentException("a and b cannot be 0 at the same time");    
-            }
-
-            if (op == "/" && a * b == 0) 
-            {
-                throw new ArgumentException("a cannot be 0 when the operator is divide");
-            }
-
             _a = a;
             _b = b;
             _operator = op;
         }
 
-        public int A {
-            get {
+        public int A 
+        {
+            get 
+            {
                 return _a;
             }
         }
 
-        public int B {
-            get {
+        public int B 
+        {
+            get 
+            {
                 return _b;
             }
         }
@@ -64,15 +59,18 @@ namespace brown
             int a = flippingCoin ? _a : _b;
             int b = flippingCoin ? _b : _a;
 
+            _a = a;
+            _b = b;
+
             if (_operator == "/") 
             {
-                return string.Format("{0} ÷ {1} = ", Decorate(Result), Decorate(a != 0 ? a : b));
+                return string.Format("{0} ÷ {1} = {2}", Decorate(Result), Decorate(a), Decorate(b));
             }
 
-            return string.Format("{0} x {1} = ", Decorate(a), Decorate(b));
+            return string.Format("{0} x {1} = {2}", Decorate(a), Decorate(b), Decorate(Result));
         }
 
-        public bool Equal(Equation eq)
+        public virtual bool Equal(Equation eq)
         {
             if (_operator == "/") {
                 return eq.A == _a && eq.B == _b && eq.Operator == _operator;
@@ -81,13 +79,8 @@ namespace brown
             return eq.A == _a && eq.B == _b;
         }
 
-        private static string Decorate(int val)
+        internal static string Decorate(int val)
         {
-            if (val < 10) 
-            {
-                return string.Format(" {0}", val);
-            }
-
             return val.ToString();
         }
     }

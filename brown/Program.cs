@@ -9,23 +9,25 @@ namespace brown
     {
         static void Main(string[] args)
         {
-            int numberOfQuestions = 20;
+            int numberOfQuestions = 30;
 
             QuestionGenerator gen = new QuestionGenerator();
-            IEnumerable<Equation> mulEqs = gen.Generate(new List<int> { 3, 4, 5, 6, 8}, "x", numberOfQuestions);
-            IEnumerable<Equation> divEqs = gen.Generate(new List<int> { 3, 4, 5, 6, 8 }, "/", numberOfQuestions);
+            IEnumerable<MissingNumberEquation> mulEqs = gen.Generate(new List<int> { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, "x", numberOfQuestions);
+            IEnumerable<MissingNumberEquation> divEqs = gen.Generate(new List<int> { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, "/", numberOfQuestions);
 
-            List<Equation> eqs = new List<Equation>();
+            List<MissingNumberEquation> eqs = new List<MissingNumberEquation>();
             eqs.AddRange(mulEqs);
             eqs.AddRange(divEqs);
 
-            List<Equation> mixed = eqs.Mix().ToList();
+            List<MissingNumberEquation> mixed = eqs.Mix().ToList();
 
+            int numberOfColumns = 5;
             int count = 1;
+
             foreach(Equation eq in mixed)
             {
                 Console.Write(eq);
-                if (count % 4 == 0) 
+                if (count % numberOfColumns == 0) 
                 {
                     Console.WriteLine();
                 } 
